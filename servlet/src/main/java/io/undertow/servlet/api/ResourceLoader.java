@@ -18,6 +18,7 @@
 
 package io.undertow.servlet.api;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 
@@ -31,5 +32,5 @@ public interface ResourceLoader {
 
     URL getResource(final String resource);
 
-    FileChannel getResourceAsChannel(final String resource, final Xnio xnio);
+    FileChannel getResourceAsChannel(final String resource, final Xnio xnio) throws IOException;
 }
