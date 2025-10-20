@@ -129,15 +129,15 @@
          -->
         <version.jakarta.annotation.jakarta-annotation-api>2.1.1</version.jakarta.annotation.jakarta-annotation-api>
         <version.jakarta.servlet.jakarta-servlet-api>6.1.0</version.jakarta.servlet.jakarta-servlet-api>
-        <version.jakarta.websocket.jakarta-websocket-api>2.1.0</version.jakarta.websocket.jakarta-websocket-api>
+        <version.jakarta.websocket.jakarta-websocket-api>2.1.1</version.jakarta.websocket.jakarta-websocket-api>
         <version.junit>4.13.2</version.junit>
-        <version.netty>4.1.82.Final</version.netty>
+        <version.netty>4.1.128.Final</version.netty>
         <version.io.undertow>2.4.0.Alpha1-SNAPSHOT</version.io.undertow>
-        <version.org.apache.httpcomponents>4.5.12</version.org.apache.httpcomponents>
+        <version.org.apache.httpcomponents>4.5.14</version.org.apache.httpcomponents>
         <version.org.jboss.logging>3.6.1.Final</version.org.jboss.logging>
         <version.org.jboss.logging.processor>3.0.4.Final</version.org.jboss.logging.processor>
         <version.org.jboss.logmanager>3.1.2.Final</version.org.jboss.logmanager>
-        <version.xnio>3.8.16.Final</version.xnio>
+        <version.xnio>3.8.17.Final</version.xnio>
         <!-- TODO remove this dependency once xnio upgrades to latest jboss threads -->
         <version.org.jboss.threads>3.9.1</version.org.jboss.threads>
         <version.org.wildfly.common>2.0.1</version.org.wildfly.common>
@@ -163,8 +163,8 @@
         <version.com.github.spotbugs-maven-plugin>4.9.8.1</version.com.github.spotbugs-maven-plugin>
 
         <!-- Non-default maven plugin versions and configuration -->
-        <version.org.wildfly.openssl>2.2.1.Final</version.org.wildfly.openssl>
-        <version.bundle.plugin>5.1.1</version.bundle.plugin>
+        <version.org.wildfly.openssl>2.2.5.Final</version.org.wildfly.openssl>
+        <version.bundle.plugin>5.1.9</version.bundle.plugin>
 
         <maven.compiler.release>17</maven.compiler.release>
         <maven.javadoc.plugin.quiet>true</maven.javadoc.plugin.quiet>
