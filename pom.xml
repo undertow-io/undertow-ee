@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright 2012 Red Hat, Inc., and individual contributors
+  ~ as indicated by the @author tags.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>50</version>
+        <relativePath />
+    </parent>
+
+    <groupId>io.undertow.ee</groupId>
+    <artifactId>undertow-ee-parent</artifactId>
+    <version>2.0.0.Alpha1-SNAPSHOT</version>
+
+    <name>Undertow Jakarta EE Implementations</name>
+    <description>Undertow implementations of Jakarta EE specifications</description>
+    <url>https://undertow.io/</url>
+
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>https://repository.jboss.org/licenses/apache-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Stuart Douglas</name>
+            <email>stuart.w.douglas@gmail.com</email>
+            <organization>Block,Inc</organization>
+            <organizationUrl>https://block.xyz</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>David Lloyd</name>
+            <email>dmlloyd@redhat.com</email>
+            <organization>WildFly</organization>
+            <organizationUrl>https://www.wildfly.org/</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Flavia Rainone</name>
+            <email>frainone@redhat.com</email>
+            <organization>WildFly</organization>
+            <organizationUrl>https://www.wildfly.org/</organizationUrl>
+            <roles>
+                <role>lead</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Richard Opalka</name>
+            <email>ropalka@redhat.com</email>
+            <organization>WildFly</organization>
+            <organizationUrl>https://www.wildfly.org/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Bartosz Baranowski</name>
+            <email>bbaranowski@redhat.com</email>
+            <organization>WildFly</organization>
+            <organizationUrl>https://www.wildfly.org/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Jason Lee</name>
+            <email>jlee@redhat.com</email>
+            <organization>WildFly</organization>
+            <organizationUrl>https://www.wildfly.org/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git://github.com/undertow-io/undertow-ee.git</connection>
+        <developerConnection>scm:git://github.com/undertow-io/undertow-ee.git</developerConnection>
+        <url>https://github.com/undertow-io/undertow-ee</url>
+    </scm>
+
+    <properties>
+        <!-- Nexus Settings -->
+        <nexus.repository.staging>jboss-io</nexus.repository.staging>
+        <nexus.repository.release>releases</nexus.repository.release>
+        <nexus.staging.tag>undertow-ee-${project.version}</nexus.staging.tag>
+
+        <!--
+            Dependency versions. Please keep alphabetical.
+
+            Each version property should be of the form "version.<groupId>".
+            For example: <version.org.jboss.as>
+
+            In cases where multiple artifacts use the same groupId but have different
+            versions, add the artifactId or other qualifier to the property name.
+            For example: <version.org.jboss.as.console>
+         -->
+        <version.jakarta.annotation.jakarta-annotation-api>2.1.1</version.jakarta.annotation.jakarta-annotation-api>
+        <version.jakarta.servlet.jakarta-servlet-api>6.1.0</version.jakarta.servlet.jakarta-servlet-api>
+        <version.jakarta.websocket.jakarta-websocket-api>2.1.0</version.jakarta.websocket.jakarta-websocket-api>
+        <version.junit>4.13.2</version.junit>
+        <version.netty>4.1.82.Final</version.netty>
+        <version.io.undertow>2.4.0.Alpha1-SNAPSHOT</version.io.undertow>
+        <version.org.apache.httpcomponents>4.5.12</version.org.apache.httpcomponents>
+        <version.org.jboss.logging>3.6.1.Final</version.org.jboss.logging>
+        <version.org.jboss.logging.processor>3.0.4.Final</version.org.jboss.logging.processor>
+        <version.org.jboss.logmanager>3.1.2.Final</version.org.jboss.logmanager>
+        <version.xnio>3.8.16.Final</version.xnio>
+        <!-- TODO remove this dependency once xnio upgrades to latest jboss threads -->
+        <version.org.jboss.threads>3.9.1</version.org.jboss.threads>
+        <version.org.wildfly.common>2.0.1</version.org.wildfly.common>
+        <version.org.wildfly.client-config>1.0.1.Final</version.org.wildfly.client-config>
+
+        <!-- jacoco -->
+        <version.org.jacoco>0.7.9</version.org.jacoco>
+        <jacoco.agent.argLine/>
+
+        <!-- Spotbugs properties -->
+        <spotbugs.exclude.filter.file>../spotbugs-exclude.xml</spotbugs.exclude.filter.file>
+
+        <!-- Surefire args -->
+        <modular.jdk.props/>
+        <surefire.jpda.args/>
+        <surefire.system.args>-ea ${surefire.jpda.args} -Xmx1024m ${modular.jdk.props}</surefire.system.args>
+        <!--by default run all tests-->
+        <test.categories/>
+
+        <!-- Checkstyle configuration -->
+        <linkXRef>false</linkXRef>
+        <version.io.undertow.build.checkstyle-config>2.0.0.Final</version.io.undertow.build.checkstyle-config>
+        <version.com.github.spotbugs-maven-plugin>4.9.8.1</version.com.github.spotbugs-maven-plugin>
+
+        <!-- Non-default maven plugin versions and configuration -->
+        <version.org.wildfly.openssl>2.2.1.Final</version.org.wildfly.openssl>
+        <version.bundle.plugin>5.1.1</version.bundle.plugin>
+
+        <maven.compiler.release>17</maven.compiler.release>
+        <maven.javadoc.plugin.quiet>true</maven.javadoc.plugin.quiet>
+        <maven.compiler.showDeprecation>false</maven.compiler.showDeprecation>
+        <maven.compiler.showWarnings>false</maven.compiler.showWarnings>
+        <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+    </properties>
+
+    <modules>
+        <module>servlet</module>
+        <module>websockets</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-core</artifactId>
+                <version>${version.io.undertow}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-core</artifactId>
+                <version>${version.io.undertow}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Modules in this project -->
+
+            <dependency>
+                <groupId>io.undertow.ee</groupId>
+                <artifactId>undertow-servlet</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.undertow.ee</groupId>
+                <artifactId>undertow-servlet</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.undertow.ee</groupId>
+                <artifactId>undertow-websockets</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- External Dependencies -->
+
+            <dependency>
+                <groupId>io.undertow.build</groupId>
+                <artifactId>undertow-checkstyle-config</artifactId>
+                <version>${version.io.undertow.build.checkstyle-config}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${version.jakarta.servlet.jakarta-servlet-api}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>${version.jakarta.annotation.jakarta-annotation-api}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.websocket</groupId>
+                <artifactId>jakarta.websocket-api</artifactId>
+                <version>${version.jakarta.websocket.jakarta-websocket-api}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.websocket</groupId>
+                <artifactId>jakarta.websocket-client-api</artifactId>
+                <version>${version.jakarta.websocket.jakarta-websocket-api}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${version.netty}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${version.org.apache.httpcomponents}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${version.org.apache.httpcomponents}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>${version.org.jboss.logging}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging-annotations</artifactId>
+                <version>${version.org.jboss.logging.processor}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.logmanager</groupId>
+                <artifactId>jboss-logmanager</artifactId>
+                <version>${version.org.jboss.logmanager}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.smallrye.common</groupId>
+                        <artifactId>smallrye-common-annotation</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.smallrye.common</groupId>
+                        <artifactId>smallrye-common-constraint</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.smallrye.common</groupId>
+                        <artifactId>smallrye-common-function</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.xnio</groupId>
+                <artifactId>xnio-api</artifactId>
+                <version>${version.xnio}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss.threads</groupId>
+                        <artifactId>jboss-threads</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.wildfly.common</groupId>
+                        <artifactId>wildfly-common</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.xnio</groupId>
+                <artifactId>xnio-nio</artifactId>
+                <version>${version.xnio}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.wildfly.common</groupId>
+                        <artifactId>wildfly-common</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.threads</groupId>
+                <artifactId>jboss-threads</artifactId>
+                <version>${version.org.jboss.threads}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.wildfly.common</groupId>
+                        <artifactId>wildfly-common</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wildfly.common</groupId>
+                <artifactId>wildfly-common</artifactId>
+                <version>${version.org.wildfly.common}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wildfly.openssl</groupId>
+                <artifactId>wildfly-openssl</artifactId>
+                <version>${version.org.wildfly.openssl}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+
+            <!-- Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!--
+                        The Javadoc comments contain a lot of warnings
+                        that add a lot of noise to the build without the
+                        following setting.
+                    -->
+                    <doclint>none</doclint>
+                    <quiet>${maven.javadoc.plugin.quiet}</quiet>
+                    <!-- @implNote is a non-standard tag and must be declared or the build will fail -->
+                    <tags>
+                        <tag>
+                            <name>implNote</name>
+                            <placement>a</placement>
+                            <head>Implementation Note:</head>
+                        </tag>
+                    </tags>
+                    <source>${maven.compiler.release}</source>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!-- Compiler -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <!-- fork is needed so compiler args can be used -->
+                        <fork>true</fork>
+                        <failOnError>true</failOnError>
+                        <compilerArgs>
+                            <arg>-J--add-opens=java.base/java.lang=ALL-UNNAMED</arg>
+                        </compilerArgs>
+                        <!-- need to specify directly, for some reason properties are ignored -->
+                        <showDeprecation>${maven.compiler.showDeprecation}</showDeprecation>
+                        <showWarnings>${maven.compiler.showWarnings}</showWarnings>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.jboss.logging</groupId>
+                                <artifactId>jboss-logging-processor</artifactId>
+                                <version>${version.org.jboss.logging.processor}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+
+                <!-- Checkstyle -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <configuration>
+                        <configLocation>undertow-checkstyle/checkstyle.xml</configLocation>
+                        <consoleOutput>true</consoleOutput>
+                        <failsOnError>true</failsOnError>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <useFile/>
+                        <sourceDirectories>
+                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                        </sourceDirectories>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.undertow.build</groupId>
+                            <artifactId>undertow-checkstyle-config</artifactId>
+                            <version>${version.io.undertow.build.checkstyle-config}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <id>check-style</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>checkstyle</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- FindBugs -->
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${version.com.github.spotbugs-maven-plugin}</version>
+                    <configuration>
+                        <excludeFilterFile>${spotbugs.exclude.filter.file}</excludeFilterFile>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>find-bugs</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <groups>${test.categories}</groups>
+                    </configuration>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <!--suppress MavenModelInspection -->
+                    <groupId>org.eclipse.m2e</groupId>
+                    <!--suppress MavenModelInspection -->
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <!--suppress MavenModelInspection -->
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-checkstyle-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [2.5,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>checkstyle</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${version.bundle.plugin}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>spotbugs</id>
+            <activation>
+                <property>
+                    <name>findbugs</name> <!-- not modified just for compatibility reason -->
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jdk18</id>
+            <activation>
+                <jdk>[18,24)</jdk>
+            </activation>
+            <properties>
+                <modular.jdk.props>-Djava.security.manager=allow</modular.jdk.props>
+            </properties>
+        </profile>
+        <profile>
+            <id>verbose</id>
+            <activation>
+                <property>
+                    <name>findbugs</name>
+                </property>
+            </activation>
+            <properties>
+                <maven.javadoc.plugin.quiet>false</maven.javadoc.plugin.quiet>
+                <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+                <maven.compiler.showWarnings>false</maven.compiler.showWarnings>
+            </properties>
+        </profile>
+    </profiles>
+</project>
