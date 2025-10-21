@@ -1,0 +1,67 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+
+name: Build and Test Undertow EE 1.0.x
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - '**'
+    paths:
+      - '.github/workflows/ci.yml'
+      - '**/pom.xml'
+      - 'servlet/**'
+      - 'websockets/**'
+  schedule:
+    - cron: '0 0 * * *' # Every day at 00:00 UTC
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  build-1-0:
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest ]
+        java: ['17', '21', '25']
+        profiles: ['', '-Pproxy', '-Dtest.ipv6=true']
+
+    steps:
+      - name: Checkout Undertow EE
+        uses: actions/checkout@v5
+        with:
+          path: undertow-ee
+      - name: Checkout Undertow
+        uses: actions/checkout@v5
+        with:
+          repository: undertow-io/undertow
+          path: undertow
+          ref: '2.4.x'
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build Undertow SNAPSHOT
+        run: |
+          cd undertow
+          mvn -V clean install -DskipTests -B -am -pl core '-Dmaven.compiler.proc=full'
+      - name: Build with Maven Java ${{ matrix.java }} - ${{ matrix.os }}
+        run:  |
+          cd undertow-ee
+          mvn -V clean install -U -B -fae ${{ matrix.profile }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.profile }}
+          path: '**/surefire-reports/*'

@@ -1,0 +1,23 @@
+= Undertow EE
+
+The Undertow EE project includes the Jakarta Servlet and Jakarta Web Sockets implementations based on Undertow.
+
+* A Jakarta Servlet 6.0 implementation
+* A Jakarta Web Sockets 2.1 compliant Web Socket implementation
+
+Website: http://undertow.io
+
+Issues: https://issues.redhat.com/projects/UNDERTOW
+
+Project Lead: Flavia Rainone link:mailto:&#102;r&#97;&#x69;&#x6e;&#x6f;&#x6e;&#101;&#x40;&#x72;e&#100;&#x68;&#97;t&#46;&#99;&#111;m[&#102;r&#97;&#x69;&#x6e;&#x6f;&#x6e;&#101;&#x40;&#x72;e&#100;&#x68;&#97;t&#46;&#99;&#111;m]
+
+Undertow Dev Group: https://groups.google.com/g/undertow-dev/
+(you can access archived discussions of old undertow-dev mail list http://lists.jboss.org/mailman/listinfo/undertow-dev[here])
+
+Zulip Chat: https://wildfly.zulipchat.com stream https://wildfly.zulipchat.com/#narrow/stream/174183-undertow[#undertow]
+
+== Notifying Security Relevant Bugs
+
+If you find a bug that has a security impact, please the link:./SECURITY.md[SECURITY.md] file.
+
+You can find more information about the security procedures at https://access.redhat.com/security/team/contact[this page].
