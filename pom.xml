@@ -132,7 +132,7 @@
         <version.jakarta.websocket.jakarta-websocket-api>2.1.0</version.jakarta.websocket.jakarta-websocket-api>
         <version.junit>4.13.2</version.junit>
         <version.netty>4.1.82.Final</version.netty>
-        <version.io.undertow>2.4.0.Alpha1-SNAPSHOT</version.io.undertow>
+        <version.io.undertow>2.4.0.Alpha1</version.io.undertow>
         <version.org.apache.httpcomponents>4.5.12</version.org.apache.httpcomponents>
         <version.org.jboss.logging>3.6.1.Final</version.org.jboss.logging>
         <version.org.jboss.logging.processor>3.0.4.Final</version.org.jboss.logging.processor>
@@ -364,6 +364,35 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <!-- TODO (jrp) these repositories can be removed once the sync to Maven Central is fixed -->
+    <repositories>
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <plugins>

@@ -1,0 +1,85 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+
+name: Test Undertow EE with Undertow 2.4 SNAPSHOT
+
+on:
+  push:
+    branches:
+      - 'main'
+  schedule:
+    - cron: '0 0 * * *' # Every day at 00:00 UTC
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  snapshot-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    outputs:
+      undertow-version: ${{ steps.version.outputs.undertow-version }}
+
+    steps:
+      - name: Checkout Undertow
+        uses: actions/checkout@v5
+        with:
+          repository: undertow-io/undertow
+          ref: '2.4.x'
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build Undertow SNAPSHOT
+        run: mvn -V clean install -DskipTests -B '-Dmaven.compiler.proc=full'
+      - id: version
+        run: echo "undertow-version=$(mvn -B help:evaluate -Dexpression=project.version -DforceStdout -q)" >> $GITHUB_OUTPUT
+      - name: Archive the repository
+        run:  |
+          cd ~
+          find ./.m2/repository -type d -name "*SNAPSHOT" -print0 | xargs -0 tar -czf ~/undertow-maven-repository.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: undertow-maven-repository
+          path: ~/undertow-maven-repository.tar.gz
+          retention-days: 5
+  integration-build:
+
+    runs-on: ${{ matrix.os }}
+    needs: snapshot-build
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest ]
+        java: ['17', '21', '25']
+        profiles: ['', '-Pproxy', '-Dtest.ipv6=true']
+
+    steps:
+      - name: Checkout Undertow EE
+        uses: actions/checkout@v5
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - uses: actions/download-artifact@v4
+        with:
+          name: undertow-maven-repository
+          path: .
+      - name: Extract Maven Repo
+        shell: bash
+        run: |
+          tar -xzf undertow-maven-repository.tar.gz -C ~
+      - name: Build with Maven Java ${{ matrix.java }} - ${{ matrix.os }}
+        run:  mvn -V clean install -U -B -fae ${{ matrix.profile }} '-Dversion.io.undertow=${{ needs.snapshot-build.outputs.undertow-version }}'
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.profile }}
+          path: '**/surefire-reports/*'
