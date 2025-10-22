@@ -6,7 +6,7 @@ name: Build and Test Undertow EE 1.0.x
 on:
   push:
     branches:
-      - 'main'
+      - '1.0.x'
   pull_request:
     branches:
       - '**'
