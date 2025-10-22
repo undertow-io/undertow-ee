@@ -55,7 +55,7 @@ jobs:
       - name: Build Undertow SNAPSHOT
         run: |
           cd undertow
-          mvn -V clean install -DskipTests -B -am -pl core '-Dmaven.compiler.proc=full'
+          mvn -V clean install -DskipTests -B '-Dmaven.compiler.proc=full'
       - name: Build with Maven Java ${{ matrix.java }} - ${{ matrix.os }}
         run:  |
           cd undertow-ee

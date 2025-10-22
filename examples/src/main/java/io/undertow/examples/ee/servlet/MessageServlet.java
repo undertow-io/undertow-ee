@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package io.undertow.examples.servlet;
+package io.undertow.examples.ee.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package io.undertow.examples.servlet;
+package io.undertow.examples.ee.servlet;
 
 import jakarta.servlet.ServletException;
 
