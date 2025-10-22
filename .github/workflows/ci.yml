@@ -38,28 +38,14 @@ jobs:
     steps:
       - name: Checkout Undertow EE
         uses: actions/checkout@v5
-        with:
-          path: undertow-ee
-      - name: Checkout Undertow
-        uses: actions/checkout@v5
-        with:
-          repository: undertow-io/undertow
-          path: undertow
-          ref: '2.4.x'
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
           cache: 'maven'
-      - name: Build Undertow SNAPSHOT
-        run: |
-          cd undertow
-          mvn -V clean install -DskipTests -B '-Dmaven.compiler.proc=full'
       - name: Build with Maven Java ${{ matrix.java }} - ${{ matrix.os }}
-        run:  |
-          cd undertow-ee
-          mvn -V clean install -U -B -fae ${{ matrix.profile }}
+        run:  mvn -V clean install -U -B -fae ${{ matrix.profile }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
