@@ -1,4 +1,4 @@
-package io.undertow.examples.jsrwebsockets;
+package io.undertow.examples.ee.websockets;
 
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.Session;

@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package io.undertow.examples.jsrwebsockets;
+package io.undertow.examples.ee.websockets;
 
 import jakarta.servlet.ServletException;
 
