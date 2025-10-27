@@ -46,7 +46,7 @@ jobs:
           cache: 'maven'
       - name: Build with Maven Java ${{ matrix.java }} - ${{ matrix.os }}
         run:  mvn -V clean install -U -B -fae ${{ matrix.profile }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.profile }}
