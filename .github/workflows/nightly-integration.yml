@@ -42,7 +42,7 @@ jobs:
         run:  |
           cd ~
           find ./.m2/repository -type d -name "*SNAPSHOT" -print0 | xargs -0 tar -czf ~/undertow-maven-repository.tar.gz
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: undertow-maven-repository
           path: ~/undertow-maven-repository.tar.gz
@@ -68,7 +68,7 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
           cache: 'maven'
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: undertow-maven-repository
           path: .
@@ -78,7 +78,7 @@ jobs:
           tar -xzf undertow-maven-repository.tar.gz -C ~
       - name: Build with Maven Java ${{ matrix.java }} - ${{ matrix.os }}
         run:  mvn -V clean install -U -B -fae ${{ matrix.profile }} '-Dversion.io.undertow=${{ needs.snapshot-build.outputs.undertow-version }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.profile }}
