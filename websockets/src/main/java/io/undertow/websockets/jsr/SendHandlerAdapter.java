@@ -22,6 +22,7 @@ import io.undertow.websockets.core.WebSocketChannel;
 
 import jakarta.websocket.SendHandler;
 import jakarta.websocket.SendResult;
+import jakarta.websocket.Session;
 
 /**
  * {@link WebSocketCallback} implementation which will notify a wrapped {@link SendHandler} once a send operation
@@ -30,10 +31,12 @@ import jakarta.websocket.SendResult;
  * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
  */
 final class SendHandlerAdapter implements WebSocketCallback<Void> {
+    private final Session session;
     private final SendHandler handler;
     private volatile boolean done;
 
-    SendHandlerAdapter(SendHandler handler) {
+    SendHandlerAdapter(Session session, SendHandler handler) {
+        this.session = session;
         this.handler = handler;
     }
     @Override
@@ -42,7 +45,7 @@ final class SendHandlerAdapter implements WebSocketCallback<Void> {
             return;
         }
         done = true;
-        handler.onResult(new SendResult());
+        handler.onResult(new SendResult(session));
     }
 
     @Override
@@ -51,6 +54,6 @@ final class SendHandlerAdapter implements WebSocketCallback<Void> {
             return;
         }
         done = true;
-        handler.onResult(new SendResult(throwable));
+        handler.onResult(new SendResult(session, throwable));
     }
 }

@@ -120,7 +120,7 @@ final class WebSocketSessionRemoteEndpoint implements RemoteEndpoint {
             if(text == null) {
                 throw JsrWebSocketMessages.MESSAGES.messageInNull();
             }
-            WebSockets.sendText(text, undertowSession.getWebSocketChannel(), new SendHandlerAdapter(handler), sendTimeout);
+            WebSockets.sendText(text, undertowSession.getWebSocketChannel(), new SendHandlerAdapter(undertowSession, handler), sendTimeout);
         }
 
         @Override
@@ -152,7 +152,7 @@ final class WebSocketSessionRemoteEndpoint implements RemoteEndpoint {
             if(data == null) {
                 throw JsrWebSocketMessages.MESSAGES.messageInNull();
             }
-            WebSockets.sendBinary(data, undertowSession.getWebSocketChannel(), new SendHandlerAdapter(completion), sendTimeout);
+            WebSockets.sendBinary(data, undertowSession.getWebSocketChannel(), new SendHandlerAdapter(undertowSession, completion), sendTimeout);
         }
 
         @Override
@@ -174,7 +174,7 @@ final class WebSocketSessionRemoteEndpoint implements RemoteEndpoint {
             if(data == null) {
                 throw JsrWebSocketMessages.MESSAGES.messageInNull();
             }
-            sendObjectImpl(data, new SendHandlerAdapter(handler));
+            sendObjectImpl(data, new SendHandlerAdapter(undertowSession, handler));
         }
 
         private void sendObjectImpl(final Object o, final WebSocketCallback callback) {
