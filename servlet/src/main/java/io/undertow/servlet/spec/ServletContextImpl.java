@@ -26,6 +26,7 @@ import io.undertow.server.session.PathParameterSessionConfig;
 import io.undertow.server.session.Session;
 import io.undertow.server.session.SessionConfig;
 import io.undertow.server.session.SessionManager;
+import io.undertow.server.session.SessionReferenceConfig;
 import io.undertow.server.session.SslSessionConfig;
 import io.undertow.servlet.UndertowServletLogger;
 import io.undertow.servlet.UndertowServletMessages;
@@ -906,32 +907,7 @@ public class ServletContextImpl implements ServletContext {
                     final HttpSessionImpl topLevel = originalServletContext.getSession(originalServletContext, exchange, true);
                     //override the session id to just return the same ID as the top level session
 
-                    c = new SessionConfig() {
-                        @Override
-                        public void setSessionId(HttpServerExchange exchange, String sessionId) {
-                            //noop
-                        }
-
-                        @Override
-                        public void clearSession(HttpServerExchange exchange, String sessionId) {
-                            //noop
-                        }
-
-                        @Override
-                        public String findSessionId(HttpServerExchange exchange) {
-                            return topLevel.getId();
-                        }
-
-                        @Override
-                        public SessionCookieSource sessionCookieSource(HttpServerExchange exchange) {
-                            return SessionCookieSource.NONE;
-                        }
-
-                        @Override
-                        public String rewriteUrl(String originalUrl, String sessionId) {
-                            return null;
-                        }
-                    };
+                    c = new SessionReferenceConfig(topLevel::getId);
 
                     //first we check if there is a session with this id already
                     //this can happen with a shared session manager
