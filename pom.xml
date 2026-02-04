@@ -134,7 +134,7 @@
         <version.netty>4.1.82.Final</version.netty>
         <version.io.undertow>2.4.0.Alpha1</version.io.undertow>
         <version.org.apache.httpcomponents>4.5.12</version.org.apache.httpcomponents>
-        <version.org.jboss.logging>3.6.1.Final</version.org.jboss.logging>
+        <version.org.jboss.logging>3.6.2.Final</version.org.jboss.logging>
         <version.org.jboss.logging.processor>3.0.4.Final</version.org.jboss.logging.processor>
         <version.org.jboss.logmanager>3.1.2.Final</version.org.jboss.logmanager>
         <version.xnio>3.8.16.Final</version.xnio>
