@@ -184,7 +184,7 @@ public class ServletCookieAdaptor implements Cookie {
 
     @Override
     public Cookie setAttribute(final String name, final String value) {
-        if (name != null || !name.isBlank()) {
+        if (name != null && !name.isBlank()) {
             if ("max-age".equalsIgnoreCase(name) && value != null) {
                 setMaxAge(Integer.parseInt(value));
             } else {
