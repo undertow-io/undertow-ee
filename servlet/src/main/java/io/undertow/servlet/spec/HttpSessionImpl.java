@@ -22,12 +22,16 @@ import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
+import io.undertow.server.session.SessionReference;
+import io.undertow.server.session.SessionReferenceConfig;
 import io.undertow.server.session.Session;
+import io.undertow.server.session.SessionManager;
 import io.undertow.servlet.UndertowServletMessages;
 import io.undertow.servlet.handlers.ServletRequestContext;
 import io.undertow.servlet.util.IteratorEnumeration;
@@ -177,14 +181,7 @@ public class HttpSessionImpl implements HttpSession {
 
     @Override
     public Accessor getAccessor() {
-        Session detached = this.session.detach();
-        ServletContext context = this.servletContext;
-        return new Accessor() {
-            @Override
-            public void access(Consumer<HttpSession> consumer) {
-                consumer.accept(new HttpSessionImpl(detached, context, false, null));
-            }
-        };
+        return new SessionReferenceAccessor(this.session.getSessionManager(), this.session.getReference(), this.servletContext);
     }
 
     @SuppressWarnings("removal")
@@ -230,6 +227,53 @@ public class HttpSessionImpl implements HttpSession {
         @Override
         public Session run() {
             return session.getSession();
+        }
+    }
+
+    static class SessionReferenceAccessor implements Accessor {
+        private final SessionManager manager;
+        private final SessionReference reference;
+        private final ServletContext context;
+
+        SessionReferenceAccessor(SessionManager manager, SessionReference reference, ServletContext context) {
+            this.manager = manager;
+            this.reference = reference;
+            this.context = context;
+        }
+
+        @Override
+        public void access(Consumer<HttpSession> task) {
+            Session session = (this.reference instanceof Session referenced) ? referenced : this.manager.getSession(null, new SessionReferenceConfig(this.reference));
+            if (session == null) {
+                throw UndertowServletMessages.MESSAGES.sessionIsInvalid();
+            }
+            try {
+                task.accept(new HttpSessionImpl(session, this.context, false, null) {
+                    @Override
+                    public Accessor getAccessor() {
+                        return SessionReferenceAccessor.this;
+                    }
+                });
+            } finally {
+                if (session != this.reference) {
+                    session.requestDone(null);
+                }
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.context, this.reference);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return (object instanceof SessionReferenceAccessor accessor) ? this.context.equals(accessor.context) && this.reference.equals(accessor.reference) : false;
+        }
+
+        @Override
+        public String toString() {
+            return this.reference.toString();
         }
     }
 }
