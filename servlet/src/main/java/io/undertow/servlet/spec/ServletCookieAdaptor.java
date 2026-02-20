@@ -20,8 +20,6 @@ package io.undertow.servlet.spec;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
-import java.util.TreeMap;
 
 import io.undertow.UndertowMessages;
 import io.undertow.server.handlers.Cookie;
@@ -38,14 +36,12 @@ import io.undertow.servlet.UndertowServletMessages;
 public class ServletCookieAdaptor implements Cookie {
 
     private final jakarta.servlet.http.Cookie cookie;
-    private final Map<String, String> attributes;
 
     private boolean sameSite;
     private String sameSiteMode;
 
     public ServletCookieAdaptor(final jakarta.servlet.http.Cookie cookie) {
         this.cookie = cookie;
-        this.attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     }
 
     @Override
@@ -175,28 +171,6 @@ public class ServletCookieAdaptor implements Cookie {
     @Override
     public String getSameSiteMode() {
         return sameSiteMode;
-    }
-
-    @Override
-    public String getAttribute(final String name) {
-        return name == null ? null : attributes.get(name);
-    }
-
-    @Override
-    public Cookie setAttribute(final String name, final String value) {
-        if (name != null && !name.isBlank()) {
-            if ("max-age".equalsIgnoreCase(name) && value != null) {
-                setMaxAge(Integer.parseInt(value));
-            } else {
-                attributes.put(name, value);
-            }
-        }
-        return this;
-    }
-
-    @Override
-    public Map<String, String> getAttributes() {
-        return Map.copyOf(attributes);
     }
 
     @Override
