@@ -73,7 +73,7 @@ public class ResponseCookiesTestCase {
 
             final Header[] setCookieHeaders = result.getHeaders("Set-Cookie");
             assertEquals(2, setCookieHeaders.length);
-            assertTrue(setCookieHeadersContainsValue("test1=test1; Path=/test", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test1=test1; path=/test", setCookieHeaders));
             assertTrue(setCookieHeadersContainsValue("test2=test2", setCookieHeaders));
         } finally {
             client.getConnectionManager().shutdown();
@@ -94,14 +94,14 @@ public class ResponseCookiesTestCase {
             final Header[] setCookieHeaders = result.getHeaders("Set-Cookie");
             assertEquals(7, setCookieHeaders.length);
             Arrays.sort(setCookieHeaders, Comparator.comparing(Object::toString));
-            assertTrue(setCookieHeadersContainsValue("test1=test1; Path=/test1_1", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test1=test1; Path=/test1_1", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test1=test1; Path=/test1_2", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test2=test2; Path=/test2", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test2=test2; Path=/test2; Domain=www.domain2.com", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test1=test1; path=/test1_1", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test1=test1; path=/test1_1", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test1=test1; path=/test1_2", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test2=test2; path=/test2", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test2=test2; path=/test2; domain=www.domain2.com", setCookieHeaders));
             assertTrue(setCookieHeadersContainsValue("test3=test3", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test3=test3; Domain=www.domain3-1.com", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test3=test3; Domain=www.domain3-2.com", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test3=test3; domain=www.domain3-1.com", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test3=test3; domain=www.domain3-2.com", setCookieHeaders));
 
         } finally {
             client.getConnectionManager().shutdown();
@@ -123,10 +123,10 @@ public class ResponseCookiesTestCase {
             assertEquals(5, setCookieHeaders.length);
             Arrays.sort(setCookieHeaders, Comparator.comparing(Object::toString));
             assertTrue(setCookieHeadersMatchesValue("JSESSIONID=.*; Path=/servletContext", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test=test10; Domain=www.domain.com", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test=test2; Path=/test", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test=test10; domain=www.domain.com", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test=test2; path=/test", setCookieHeaders));
             assertTrue(setCookieHeadersContainsValue("test=test5", setCookieHeaders));
-            assertTrue(setCookieHeadersContainsValue("test=test8; Path=/test; Domain=www.domain.com", setCookieHeaders));
+            assertTrue(setCookieHeadersContainsValue("test=test8; path=/test; domain=www.domain.com", setCookieHeaders));
 
         } finally {
             client.getConnectionManager().shutdown();
@@ -157,7 +157,7 @@ public class ResponseCookiesTestCase {
     private static boolean setCookieHeadersContainsValue(final String value, final Header[] setCookieHeaders) {
         if (setCookieHeaders == null) return false;
         for (Header h : setCookieHeaders) {
-            if (value.equals(h.getValue())) return true;
+            if (value.equalsIgnoreCase(h.getValue())) return true;
         }
         return false;
     }

@@ -21,7 +21,6 @@ package io.undertow.servlet.spec;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
-import java.util.TreeMap;
 
 import io.undertow.UndertowMessages;
 import io.undertow.server.handlers.Cookie;
@@ -36,16 +35,13 @@ import io.undertow.servlet.UndertowServletMessages;
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 public class ServletCookieAdaptor implements Cookie {
+    private static final String SAME_SITE = "SameSite";
 
     private final jakarta.servlet.http.Cookie cookie;
-    private final Map<String, String> attributes;
-
-    private boolean sameSite;
-    private String sameSiteMode;
+    private boolean sameSite = false;
 
     public ServletCookieAdaptor(final jakarta.servlet.http.Cookie cookie) {
         this.cookie = cookie;
-        this.attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     }
 
     @Override
@@ -174,29 +170,7 @@ public class ServletCookieAdaptor implements Cookie {
 
     @Override
     public String getSameSiteMode() {
-        return sameSiteMode;
-    }
-
-    @Override
-    public String getAttribute(final String name) {
-        return name == null ? null : attributes.get(name);
-    }
-
-    @Override
-    public Cookie setAttribute(final String name, final String value) {
-        if (name != null && !name.isBlank()) {
-            if ("max-age".equalsIgnoreCase(name) && value != null) {
-                setMaxAge(Integer.parseInt(value));
-            } else {
-                attributes.put(name, value);
-            }
-        }
-        return this;
-    }
-
-    @Override
-    public Map<String, String> getAttributes() {
-        return Map.copyOf(attributes);
+        return cookie.getAttribute(SAME_SITE);
     }
 
     @Override
@@ -204,12 +178,28 @@ public class ServletCookieAdaptor implements Cookie {
         final String m = CookieSameSiteMode.lookupModeString(mode);
         if (m != null) {
             UndertowServletLogger.REQUEST_LOGGER.tracef("Setting SameSite mode to [%s] for cookie [%s]", m, this.getName());
-            this.sameSiteMode = m;
-            this.setSameSite(true);
+           cookie.setAttribute(SAME_SITE, m);
+           this.setSameSite(true);
         } else {
             UndertowServletLogger.REQUEST_LOGGER.warnf(UndertowMessages.MESSAGES.invalidSameSiteMode(mode, Arrays.toString(CookieSameSiteMode.values())), "Ignoring specified SameSite mode [%s] for cookie [%s]", mode, this.getName());
         }
         return this;
+    }
+
+    @Override
+    public String getAttribute(final String name) {
+        return cookie.getAttribute(name);
+    }
+
+    @Override
+    public Cookie setAttribute(final String name, final String value) {
+        cookie.setAttribute(name, value);
+        return this;
+    }
+
+    @Override
+    public Map<String, String> getAttributes() {
+        return cookie.getAttributes();
     }
 
     @Override
