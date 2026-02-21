@@ -137,7 +137,7 @@
         <version.org.jboss.logging>3.6.1.Final</version.org.jboss.logging>
         <version.org.jboss.logging.processor>3.0.4.Final</version.org.jboss.logging.processor>
         <version.org.jboss.logmanager>3.1.2.Final</version.org.jboss.logmanager>
-        <version.xnio>3.8.16.Final</version.xnio>
+        <version.xnio>3.8.17.Final</version.xnio>
         <!-- TODO remove this dependency once xnio upgrades to latest jboss threads -->
         <version.org.jboss.threads>3.9.1</version.org.jboss.threads>
         <version.org.wildfly.common>2.0.1</version.org.wildfly.common>
