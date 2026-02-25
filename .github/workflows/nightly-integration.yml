@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout Undertow
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: undertow-io/undertow
           ref: '2.4.x'
@@ -42,7 +42,7 @@ jobs:
         run:  |
           cd ~
           find ./.m2/repository -type d -name "*SNAPSHOT" -print0 | xargs -0 tar -czf ~/undertow-maven-repository.tar.gz
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: undertow-maven-repository
           path: ~/undertow-maven-repository.tar.gz
@@ -61,14 +61,14 @@ jobs:
 
     steps:
       - name: Checkout Undertow EE
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
           cache: 'maven'
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
         with:
           name: undertow-maven-repository
           path: .
@@ -78,7 +78,7 @@ jobs:
           tar -xzf undertow-maven-repository.tar.gz -C ~
       - name: Build with Maven Java ${{ matrix.java }} - ${{ matrix.os }}
         run:  mvn -V clean install -U -B -fae ${{ matrix.profile }} '-Dversion.io.undertow=${{ needs.snapshot-build.outputs.undertow-version }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.profile }}
