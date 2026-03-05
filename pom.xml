@@ -160,7 +160,7 @@
         <!-- Checkstyle configuration -->
         <linkXRef>false</linkXRef>
         <version.io.undertow.build.checkstyle-config>2.0.0.Final</version.io.undertow.build.checkstyle-config>
-        <version.com.github.spotbugs-maven-plugin>4.7.3.4</version.com.github.spotbugs-maven-plugin>
+        <version.com.github.spotbugs-maven-plugin>4.7.3.6</version.com.github.spotbugs-maven-plugin>
 
         <!-- Non-default maven plugin versions and configuration -->
         <version.org.wildfly.openssl>2.2.5.Final</version.org.wildfly.openssl>
