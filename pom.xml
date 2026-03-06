@@ -131,9 +131,9 @@
         <version.jakarta.servlet.jakarta-servlet-api>6.1.0</version.jakarta.servlet.jakarta-servlet-api>
         <version.jakarta.websocket.jakarta-websocket-api>2.2.0</version.jakarta.websocket.jakarta-websocket-api>
         <version.junit>4.13.2</version.junit>
-        <version.netty>4.1.82.Final</version.netty>
-        <version.io.undertow>2.4.0.Beta2</version.io.undertow>
-        <version.org.apache.httpcomponents>4.5.12</version.org.apache.httpcomponents>
+        <version.netty>4.2.10.Final</version.netty>
+        <version.io.undertow>2.4.0.RC1</version.io.undertow>
+        <version.org.apache.httpcomponents>4.5.14</version.org.apache.httpcomponents>
         <version.org.jboss.logging>3.6.2.Final</version.org.jboss.logging>
         <version.org.jboss.logging.processor>3.0.4.Final</version.org.jboss.logging.processor>
         <version.org.jboss.logmanager>3.1.2.Final</version.org.jboss.logmanager>
@@ -144,7 +144,7 @@
         <version.org.wildfly.client-config>1.0.1.Final</version.org.wildfly.client-config>
 
         <!-- jacoco -->
-        <version.org.jacoco>0.7.9</version.org.jacoco>
+        <version.org.jacoco>0.8.14</version.org.jacoco>
         <jacoco.agent.argLine/>
 
         <!-- Spotbugs properties -->
@@ -164,7 +164,7 @@
 
         <!-- Non-default maven plugin versions and configuration -->
         <version.org.wildfly.openssl>2.2.5.Final</version.org.wildfly.openssl>
-        <version.bundle.plugin>5.1.1</version.bundle.plugin>
+        <version.bundle.plugin>6.0.2</version.bundle.plugin>
 
         <maven.compiler.release>17</maven.compiler.release>
         <maven.javadoc.plugin.quiet>true</maven.javadoc.plugin.quiet>
