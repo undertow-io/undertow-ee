@@ -133,7 +133,7 @@ jobs:
         os: [ubuntu-latest]
         module: [servlet]
         proxy: ['-Pproxy', '']
-        jdk: [17]
+        jdk: [17, 21, 25]
     steps:
       - name: Update hosts - linux
         if: matrix.os == 'ubuntu-latest'
