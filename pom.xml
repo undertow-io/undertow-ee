@@ -131,7 +131,7 @@
         <version.jakarta.servlet.jakarta-servlet-api>6.0.0</version.jakarta.servlet.jakarta-servlet-api>
         <version.jakarta.websocket.jakarta-websocket-api>2.1.0</version.jakarta.websocket.jakarta-websocket-api>
         <version.junit>4.13.2</version.junit>
-        <version.netty>4.2.10.Final</version.netty>
+        <version.netty>4.2.13.Final</version.netty>
         <version.io.undertow>2.4.0.Final</version.io.undertow>
         <version.org.apache.httpcomponents>4.5.14</version.org.apache.httpcomponents>
         <version.org.jboss.logging>3.6.3.Final</version.org.jboss.logging>
