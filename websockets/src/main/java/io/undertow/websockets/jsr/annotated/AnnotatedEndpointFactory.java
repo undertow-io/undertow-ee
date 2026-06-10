@@ -86,7 +86,7 @@ public class AnnotatedEndpointFactory {
         Class<?> c = endpointClass;
 
         do {
-            for (final Method method : c.getDeclaredMethods()) {
+            for (final Method method : SecurityActions.getDeclaredMethods(c)) {
                 if (method.isAnnotationPresent(OnOpen.class)) {
                     if (found.contains(OnOpen.class)) {
                         if(!onOpen.overrides(method)) {

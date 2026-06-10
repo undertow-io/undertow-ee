@@ -75,7 +75,7 @@ final class BoundMethod {
                 throw JsrWebSocketMessages.MESSAGES.invalidParameters(method, allParams);
             }
         }
-        method.setAccessible(true);
+        SecurityActions.setAccessible(method, true);
     }
 
     public Object invoke(final Object instance, final Map<Class<?>, Object> values) throws Exception {
