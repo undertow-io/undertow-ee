@@ -29,7 +29,7 @@
 
     <groupId>io.undertow.ee</groupId>
     <artifactId>undertow-ee-parent</artifactId>
-    <version>1.0.1.Final</version>
+    <version>1.0.2.Final-SNAPSHOT</version>
 
     <name>Undertow Jakarta EE Implementations</name>
     <description>Undertow implementations of Jakarta EE specifications</description>
@@ -141,7 +141,7 @@
         <!-- TODO remove this dependency once xnio upgrades to latest jboss threads -->
         <version.org.jboss.threads>3.9.2</version.org.jboss.threads>
         <version.org.wildfly.common>2.0.1</version.org.wildfly.common>
-        <version.org.wildfly.client-config>1.0.1.Final</version.org.wildfly.client-config>
+        <version.org.wildfly.client-config>1.0.2.Final-SNAPSHOT</version.org.wildfly.client-config>
 
         <!-- jacoco -->
         <version.org.jacoco>0.8.14</version.org.jacoco>
