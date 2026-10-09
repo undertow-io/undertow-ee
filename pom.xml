@@ -123,7 +123,7 @@
         <version.jakarta.servlet.api>6.1.0</version.jakarta.servlet.api>
         <version.jakarta.websocket.api>2.2.0</version.jakarta.websocket.api>
         <version.junit>4.13.2</version.junit>
-        <version.netty>4.2.18.Final</version.netty>
+        <version.netty>4.2.19.Final</version.netty>
         <version.org.apache.httpcomponents>4.5.14</version.org.apache.httpcomponents>
         <version.org.jboss.logging>3.6.3.Final</version.org.jboss.logging>
         <version.org.jboss.logging.processor>3.0.4.Final</version.org.jboss.logging.processor>
